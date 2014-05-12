@@ -22,6 +22,8 @@ class build_normalized_list:
         """
         turns whites to blacks and Normalizes pictures to 8x8 or 16x16 (im still debating)
         """
+        if self.debugs:
+            image = cv2.resize(image, (64, 64))
         image = self.InvertImage(image)
         colSum = np.sum(image, axis = 0) #columns
         rowSum = np.sum(image, axis = 1) #rows
@@ -43,7 +45,7 @@ class build_normalized_list:
         toleranceNum = np.sum(array)*tolerance
         if self.debugs:
             print "tol num "+str(toleranceNum)
-            print array
+            print np.float_(array) / np.sum(array)
         begin = 0
         end = array.size - 1 #zero based indexing
         for i in xrange(array.size):
@@ -91,23 +93,27 @@ class pattern_matcher:
     def getMatch(self):
         return self.index
 if __name__ == "__main__":
-    #build lists of letter
+    #build lists of letter (training data)
     letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    listOfDirsWithLetters = ["/home/brian/Pictures/LETTERS/"] #different directories
+    listOfDirsWithLetters = ["./LETTERS/"] #different directories
     listOfNormalizedLetters = []
     for dirWithPics in listOfDirsWithLetters:
         pathToLetters = [dirWithPics + letters[i] + ".jpg" for i in xrange(26)]#generates list of paths to each letter
         listOfNormalizedLetters.append(build_normalized_list(pathToLetters).GetList())
-    #normalize hand drawn A
-    Apath = "/home/brian/Pictures/A_test.jpg"
-    ANorm = build_normalized_list([Apath], True).GetList()[0]
-    d = display_images()
-    print ANorm
-    d.display(ANorm)
-    #d.display(listOfNormalizedLetters[0])
-    #A = build_normalized_list(listOfNormalizedLetters)#wtf is this?
-    indexOfMatch = pattern_matcher(listOfNormalizedLetters[0], ANorm).getMatch()
-    print "Anorm was matched to: " + str(letters[indexOfMatch])
+    #normalize hand drawn letters
+    handDrawnLetters = []
+    #handDrawnLetters = [build_normalized_list(["./HandLetters/" + letters[i] + ".jpg"], True).GetList()[0] for i in xrange(8)]
+    for i in xrange(7):
+        #print i
+        #print letters[i]
+        handDrawnLetters.append(build_normalized_list(["./HandLetters/" + letters[i] + ".jpg"], True).GetList()[0])
+    #Apath = "/home/brian/Pictures/A_test.jpg"
+    #ANorm = build_normalized_list([Apath], True).GetList()[0]
+    #indexOfMatch = pattern_matcher(listOfNormalizedLetters[0], ANorm).getMatch()
+    for i in xrange(7):
+        indexOfMatch = pattern_matcher(listOfNormalizedLetters[0], handDrawnLetters[i]).getMatch()
+
+        print str(letters[i]) + " was matched to: " + str(letters[indexOfMatch])
     '''
     #display letters
     for j in listOfNormalizedLetters:

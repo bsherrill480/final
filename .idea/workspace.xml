@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/difference_method.py" line="28" mnemonic="0" />
+    <bookmark url="file://$PROJECT_DIR$/difference_method.py" line="30" mnemonic="0" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97470297-805f-4490-8e95-efb0bde3b6c5" name="Default" comment="" />
@@ -29,7 +29,7 @@
       <file leaf-file-name="difference_method.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/difference_method.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="22" selection-start="606" selection-end="606" vertical-scroll-proportion="0.17825311" vertical-offset="140" max-vertical-offset="1860">
+            <state line="25" column="41" selection-start="857" selection-end="857" vertical-scroll-proportion="0.39577836" vertical-offset="225" max-vertical-offset="1950">
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -40,7 +40,7 @@
       <file leaf-file-name="normalize.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/normalize.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="0" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+            <state line="5" column="0" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="165">
               <folding />
             </state>
           </provider>
@@ -64,7 +64,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="65" />
     <option name="y" value="24" />
-    <option name="width" value="1285" />
+    <option name="width" value="1275" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -117,7 +117,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="recentsLimit" value="5" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -284,14 +284,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1285" height="744" extended-state="4" />
-    <editor active="true" />
+    <frame x="65" y="24" width="1275" height="744" extended-state="4" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24824902" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24784313" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.06366459" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3462733" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -327,6 +327,22 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/difference_method.py">
       <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="6" selection-start="590" selection-end="590" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1860">
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/normalize.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="0" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="165">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/difference_method.py">
+      <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="72" selection-start="816" selection-end="816" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -357,7 +373,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/difference_method.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="22" selection-start="606" selection-end="606" vertical-scroll-proportion="0.17825311" vertical-offset="140" max-vertical-offset="1860">
+        <state line="25" column="41" selection-start="857" selection-end="857" vertical-scroll-proportion="0.39577836" vertical-offset="225" max-vertical-offset="1950">
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
