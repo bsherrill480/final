@@ -23,7 +23,7 @@ class build_normalized_list:
         turns whites to blacks and Normalizes pictures to 8x8 or 16x16 (im still debating)
         """
         if self.debugs:
-            image = cv2.resize(image, (64, 64))
+            image = cv2.resize(image, (128, 128))
         image = self.InvertImage(image)
         colSum = np.sum(image, axis = 0) #columns
         rowSum = np.sum(image, axis = 1) #rows
