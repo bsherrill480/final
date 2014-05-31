@@ -51,7 +51,7 @@
       <file leaf-file-name="k_means.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/k_means.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="4" selection-start="369" selection-end="369" vertical-scroll-proportion="0.40145984" vertical-offset="0" max-vertical-offset="411">
+            <state line="18" column="50" selection-start="739" selection-end="741" vertical-scroll-proportion="0.4160584" vertical-offset="99" max-vertical-offset="630">
               <folding>
                 <element signature="e#21#49#0" expanded="true" />
               </folding>
@@ -507,7 +507,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/k_means.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="4" selection-start="369" selection-end="369" vertical-scroll-proportion="0.40145984" vertical-offset="0" max-vertical-offset="411">
+        <state line="18" column="50" selection-start="739" selection-end="741" vertical-scroll-proportion="0.4160584" vertical-offset="99" max-vertical-offset="630">
           <folding>
             <element signature="e#21#49#0" expanded="true" />
           </folding>
