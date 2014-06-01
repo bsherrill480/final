@@ -3,7 +3,7 @@ import os
 import numpy as np
 import cv2
 class GetData:
-    def __init__(self, d = "./training", sampleStart = 1, sampleEnd = 62):
+    def __init__(self, d = "./training", sampleStart = 1, sampleEnd = 62, numInSample = 55):
 
         """
         d is string of dir of directory containing training
@@ -89,7 +89,7 @@ class GetData:
             averagedImages.append(average.astype(np.uint8))
         return averagedImages
 """
-    def display(self, thing):
+    def DisplayImages(self, thing):
         if isinstance(thing, list):
             for i in thing:
                 cv2.imshow('image',i)

@@ -3,13 +3,11 @@ from LoadData import GetData
 import cv2
 from scipy.cluster.vq import *
 import numpy as np
-import pylab
+import os
 
 class MyKMeans:
     def __init__(self, sampStart = 1, sampEnd = 62):
-        doNum = 10
         data = GetData(sampleStart=sampStart, sampleEnd=sampEnd)
-        letters = data.GetLetters()
         self.imgs = data.GetListImgs()
         #avgs10 = data.GetAveraged()[0:10]
         avgs = data.GetAveraged()
@@ -33,6 +31,15 @@ class MyKMeans:
         n = len(obsKWhit)
         o = len(self.kguesses)
         return kmeans2(obsKWhit[0:n-o], obsKWhit[n-o:n])
+    def WhitenWithTests(self, test):
+        t = len(test)
+        a = len(self.avgs)
+        obs = np.array([list(j.flatten()) for i in self.imgs for j in i] + [list(j.flatten()) for j in self.avgs] + [list(j.flatten()) for j in test])
+        obsWhit = whiten(obs)
+        #print len(obsKWhit)
+        n = len(obsWhit)
+        centroids, clusters = kmeans2(obsWhit[0:n-t-a], obsWhit[n-t-a:n-t])
+        return centroids, clusters, obsWhit[n-t:n]
     def RoughErrors (self, idx):
         """
         Expects 55 is each catagory. Counts the number of items from the 55
@@ -78,18 +85,36 @@ class MyKMeans:
             itter = itter + 1
         return errors
 
-
-if __name__ == "__main__":
-    #Play around to see what technique gives best result
-    Kmeans = MyKMeans(4,10)
-    CE,CL1 = Kmeans.WhitenObsAndKInt()
-    CE,CL2 = Kmeans.ObsAndKInt()
-    CE,CL3 = Kmeans.ObsAndKGuess()
-    CE,CL4 = Kmeans.WhitenObsAndKInt()
-
+def testMethods():
+    KmeansT = MyKMeans(sampStart=4,sampEnd=9)
+    CE,CL1 = KmeansT.WhitenObsAndKInt()
+    CE,CL2 = KmeansT.ObsAndKInt()
+    CE,CL3 = KmeansT.ObsAndKGuess()
+    CE,CL4 = KmeansT.WhitenObsAndKInt()
     L = [CL1, CL2, CL3, CL4]
     for i in L:
         print "Complex Errors: " + str(Kmeans.ComplexErrors(i))
 
     for i in L:
         print "Rough Errors: " + str(Kmeans.RoughErrors(i))
+
+if __name__ == "__main__":
+    #Play around to see what technique gives best result
+    Kmeans = MyKMeans(11,36)
+    def DisplayImages(thing):
+        if isinstance(thing, list):
+            for i in thing:
+                cv2.imshow('image',i)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
+        else:
+            cv2.imshow('image',thing)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
+    print "----------"
+    data = GetData(sampleStart = 1, sampleEnd=1)
+    testDir = "/home/brian/PycharmProjects/firstAttempt/HandLetters"
+    testImages = [data.NormalizeImage(cv2.imread(testDir + "/" + j, 0)) for j in os.listdir(testDir)]
+    centroids, clusters, testWhit = Kmeans.WhitenWithTests(testImages)
+
+    #DisplayImages(testImages)
