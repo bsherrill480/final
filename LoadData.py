@@ -3,7 +3,7 @@ import os
 import numpy as np
 import cv2
 class GetData:
-    def __init__(self, d = "./training", doLess = 62,):
+    def __init__(self, d = "./training", sampleStart = 1, sampleEnd = 62):
 
         """
         d is string of dir of directory containing training
@@ -13,8 +13,7 @@ class GetData:
         self.d = d
         self.letters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"#Letter
         ListOfListOfImages = [] #List[i] is list of Letter I in Letters
-        for k in xrange(doLess):
-            i = k+1
+        for i in xrange(sampleStart, sampleEnd + 1):
             num = str(i)
             if len(num) == 1:
                 num = "00"+num
