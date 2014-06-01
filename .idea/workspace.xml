@@ -38,7 +38,7 @@
       <file leaf-file-name="LoadData.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LoadData.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="52" selection-start="639" selection-end="639" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+            <state line="15" column="52" selection-start="639" selection-end="639" vertical-scroll-proportion="0.0" vertical-offset="1080" max-vertical-offset="1575">
               <folding />
             </state>
           </provider>
@@ -47,7 +47,7 @@
       <file leaf-file-name="k_means.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/k_means.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="43" column="12" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.4160584" vertical-offset="474" max-vertical-offset="1260">
+            <state line="82" column="56" selection-start="3021" selection-end="3021" vertical-scroll-proportion="0.24403183" vertical-offset="1138" max-vertical-offset="1515">
               <folding>
                 <element signature="e#21#49#0" expanded="true" />
               </folding>
@@ -525,7 +525,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/k_means.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="12" selection-start="1627" selection-end="1627" vertical-scroll-proportion="0.4160584" vertical-offset="474" max-vertical-offset="1260">
+        <state line="82" column="56" selection-start="3021" selection-end="3021" vertical-scroll-proportion="0.24403183" vertical-offset="1138" max-vertical-offset="1515">
           <folding>
             <element signature="e#21#49#0" expanded="true" />
           </folding>

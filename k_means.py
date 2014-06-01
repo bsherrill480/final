@@ -6,15 +6,15 @@ import numpy as np
 import pylab
 
 class MyKMeans:
-    def __init__(self, imageList, sampStart = 1, sampEnd = 62):
+    def __init__(self, sampStart = 1, sampEnd = 62):
         doNum = 10
         data = GetData(sampleStart=sampStart, sampleEnd=sampEnd)
         letters = data.GetLetters()
-        self.imgs = imageList
+        self.imgs = data.GetListImgs()
         #avgs10 = data.GetAveraged()[0:10]
         avgs = data.GetAveraged()
-        avgs = avgs[sampStart-1, sampEnd]
-        self.Kguesses = np.array([list(j.flatten()) for j in avgs])
+        self.avgs = avgs[sampStart-1: sampEnd]
+        self.kguesses = np.array([list(j.flatten()) for j in avgs])
         self.k = sampEnd - sampStart + 1
     def ObsAndKInt(self):
         obs = np.array([list(j.flatten()) for i in self.imgs for j in i])
@@ -33,47 +33,63 @@ class MyKMeans:
         n = len(obsKWhit)
         o = len(self.kguesses)
         return kmeans2(obsKWhit[0:n-o], obsKWhit[n-o:n])
-        print res
-        print "------------"
-        print idx
-    def CheckCorrects (self, res, idx):
-        resList = list(idx)
-        for i in resList:
-            pass
-    def GetKGuesses(self, imageList):
-        pass
+    def RoughErrors (self, idx):
+        """
+        Expects 55 is each catagory. Counts the number of items from the 55
+        """
+        counts = np.zeros(self.k, dtype=np.int_)
+        idxList = list(idx)
+        #print idxList
+        for i in idxList:
+            counts[i] = counts[i] + 1
+        return sum([abs(55 - i) for i in counts]) / 2
+
+    def ComplexErrors(self, idx):
+        """
+        Finds most common cluster id in set of same letters, and then uses that as the true ID of the set of letters
+        and counts the number that do not belong
+        """
+        counts = np.zeros(self.k, dtype=np.int_)
+        itter = 0
+        idxList = list(idx)
+        mostCommonInBlock = []
+        for i in idxList:
+            counts[i] = counts[i]+1
+            if itter%54 == 0:
+                itter = -1
+                indexOfLargest = 0
+                maxVal = counts[0]
+                for j in xrange(len(counts)):
+                    if counts[j] > maxVal:
+                        maxVal = counts[j]
+                        indexOfLargest = j
+                mostCommonInBlock.append(counts[j])
+                counts[:] = 0
+            itter = itter+1
+        errors = 0
+        itter = 0
+        mostCommonIndex = 0
+        for i in idxList:
+            if counts[i] != mostCommonInBlock[mostCommonIndex]:
+                errors = errors + 1
+            if itter % 54 == 0:
+                itter = -1
+                mostCommonIndex = mostCommonIndex + 1
+            itter = itter + 1
+        return errors
 
 
 if __name__ == "__main__":
-    #build lists of letter (training data)
+    #Play around to see what technique gives best result
+    Kmeans = MyKMeans(4,10)
+    CE,CL1 = Kmeans.WhitenObsAndKInt()
+    CE,CL2 = Kmeans.ObsAndKInt()
+    CE,CL3 = Kmeans.ObsAndKGuess()
+    CE,CL4 = Kmeans.WhitenObsAndKInt()
 
-    """
-    doNum = 10
-    data = GetData(sampleStart=1, sampleEnd=10)
-    letters = data.GetLetters()
-    imgs = data.GetListImgs()
-    avgs10 = data.GetAveraged()[0:10]
-    Kguesses = np.array([list(j.flatten()) for j in avgs10])
-    obs = np.array([list(j.flatten()) for i in imgs for j in i]) #flattens each image into a row
-    ## MAKE DIFFERENT METHODS FOR DIFFERENT STATAGIES. IE K=10 & OBS, OBS & KGUESSES, WHITEN(OBS) & K =10, ,
-    ## WHITEN(OBSK) &KGUESSES = WHITENEDKOBS[N-10,N]
-    ### obs with k guesses to be whitened too
-    obsAndK = np.array([list(j.flatten()) for i in imgs for j in i] + [list(j.flatten()) for j in avgs10])
-    obsKWhit = whiten(obsAndK)
-    n = len(obsKWhit)
-    cents, idx = kmeans2(obsKWhit[0:n-10], obsKWhit[n-10:n])
-    print cents.shape
-    print "------------"
-    print str(list(idx))
-    ###
-    #try whiten
-    #no whiten + kguesses
-    #or whiten + no k = 10
-    #obsW = whiten(obs)#consider playing around with
-    """
-    """
-    res, idx = kmeans2(obsW, Kguesses)
-    print res
-    print "------------"
-    print idx
-    """
+    L = [CL1, CL2, CL3, CL4]
+    for i in L:
+        print "Complex Errors: " + str(Kmeans.ComplexErrors(i))
+
+    for i in L:
+        print "Rough Errors: " + str(Kmeans.RoughErrors(i))
