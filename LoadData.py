@@ -2,6 +2,8 @@ __author__ = 'brian'
 import os
 import numpy as np
 import cv2
+import string
+import random
 class GetData:
     def __init__(self, d = "./training", sampleStart = 1, sampleEnd = 62, numInSample = 55):
 
@@ -11,7 +13,7 @@ class GetData:
         samples of 1s. See string Letters for corresponding letters to number
         """
         self.d = d
-        self.letters="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"#Letter
+        self.letters="!0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"#Letter
         ListOfListOfImages = [] #List[i] is list of Letter I in Letters
         for i in xrange(sampleStart, sampleEnd + 1):
             num = str(i)
@@ -43,6 +45,9 @@ class GetData:
         tolerance = .005 #percent tolerance
         colStart, colEnd = self.BegginingEndIndex2(colSum, tolerance)
         rowStart, rowEnd = self.BegginingEndIndex2(rowSum, tolerance)
+        #Dump normalized images into ./dump/
+        #randName = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        #cv2.imwrite("./dump/"+randName+".jpg", cv2.resize(image[rowStart : rowEnd+1, colStart : colEnd+1], (16, 16)))
         return cv2.resize(image[rowStart : rowEnd+1, colStart : colEnd+1], (16, 16)) #+1 to end because slicing is [inclusive, exclusive]
 
     def InvertImage(self, image):
