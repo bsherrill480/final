@@ -6,7 +6,7 @@ import numpy as np
 import os
 
 class MyKMeans:
-    def __init__(self, sampStart = 1, sampEnd = 62):
+    def __init__(self, sampStart = 11, sampEnd = 36):
         data = GetData(sampleStart=sampStart, sampleEnd=sampEnd)
         self.sampStart = sampStart
         self.sampEnd = sampEnd
@@ -149,9 +149,6 @@ class MyKMeans:
         print dict(dictTupes)
         return dict(dictTupes)
 
-    def clusterIdTwo(self, cent):
-        pass
-
     def ClassifyTestsM1(self, testDir = "/home/brian/PycharmProjects/firstAttempt/HandLetters"):
         """
         uses ObsAndKGuess to classify images
@@ -182,7 +179,12 @@ class MyKMeans:
                     bestCent = j
             matches.append(name + "was identified to be: " + letterDict[bestCent])
         return matches
-    def ClassifyTestsM2(self, testDir = "/home/brian/PycharmProjects/firstAttempt/HandLetters"):
+    def ClassifyTestsM2BROKEN(self, testDir = "/home/brian/PycharmProjects/firstAttempt/HandLetters"):
+        """
+
+        BROKEN METHOD. DOES NOT WORK. KEPT FOR REFERANCE
+        """
+
         testImages = [(self.data.NormalizeImage(cv2.imread(testDir + "/" + j, 0)),j) for j in os.listdir(testDir)]#tuple (image, letter)
 
         #testImagesFlat = np.array([list(j.flatten()) for j in testImages])
