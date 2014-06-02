@@ -42,7 +42,8 @@ class GetData:
         colSum = np.sum(image, axis = 0) #columns
         rowSum = np.sum(image, axis = 1) #rows
         sumTot = np.sum(colSum)
-        tolerance = .005 #percent tolerance
+        #tolerance = .005 #percent tolerance
+        tolerance = .01 #percent tolerance
         colStart, colEnd = self.BegginingEndIndex2(colSum, tolerance)
         rowStart, rowEnd = self.BegginingEndIndex2(rowSum, tolerance)
         #Dump normalized images into ./dump/
@@ -85,6 +86,7 @@ class GetData:
         return self.letters
 
     def GetAveraged(self):
+
         averagedImages = []
         for j in self.ListOfListOfImages:
             toAverage = np.zeros(shape = (16, 16), dtype=np.float_)
@@ -92,6 +94,10 @@ class GetData:
                 toAverage = toAverage + i
             average = toAverage / len(j)
             averagedImages.append(average.astype(np.uint8))
+        #dump averaged images into averages
+        #for j in averagedImages:
+        #    randName = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
+        #    cv2.imwrite("./averages/"+randName+".jpg", j)
         return averagedImages
 """
     def DisplayImages(self, thing):

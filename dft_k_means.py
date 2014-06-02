@@ -5,7 +5,7 @@ from scipy.cluster.vq import *
 import numpy as np
 import os
 
-class MyKMeans:
+class MyDFTKMeans:
     def __init__(self, sampStart = 11, sampEnd = 36):
         data = GetData(sampleStart=sampStart, sampleEnd=sampEnd)
         self.sampStart = sampStart
@@ -37,18 +37,7 @@ class MyKMeans:
         n = len(obsKWhit)
         o = len(self.kguesses)
         return kmeans2(obsKWhit[0:n-o], obsKWhit[n-o:n])
-    #not fully developed
-    """
-    def WhitenWithTests(self, test):
-        t = len(test)
-        a = len(self.avgs)
-        obs = np.array([list(j.flatten()) for i in self.imgs for j in i] + [list(j.flatten()) for j in self.avgs] + [list(j.flatten()) for j in test])
-        obsWhit = whiten(obs)
-        #print len(obsKWhit)
-        n = len(obsWhit)
-        centroids, clusters = kmeans2(obsWhit[0:n-t-a], obsWhit[n-t-a:n-t])
-        return centroids, clusters, obsWhit[n-t:n]
-    """
+
     def RoughErrors (self, idx):
         """
         Expects 55 is each catagory. Counts the number of items deviating from 55 in each catagory
@@ -60,41 +49,6 @@ class MyKMeans:
             counts[i] = counts[i] + 1
         return sum([abs(55 - i) for i in counts]) / 2
 
-   #broken attempt at complex errors, keeping for possible later reference
-    """
-    def ComplexErrorsBroken(self, idx):
-        counts = np.zeros(self.k, dtype=np.int_)
-        itter = 0
-        idxList = list(idx)
-        mostCommonInBlock = []
-        for i in idxList:
-            counts[i] = counts[i]+1
-            if itter%54 == 0:
-                itter = -1
-                indexOfLargest = 0
-                maxVal = counts[0]
-                for j in xrange(len(counts)):
-                    if counts[j] > maxVal:
-                        maxVal = counts[j]
-                        indexOfLargest = j
-                #mostCommonInBlock.append(counts[j])#think wrong
-                mostCommonInBlock.append(indexOfLargest)
-                counts[:] = 0
-            itter = itter+1
-        errors = 0
-        itter = 0
-        mostCommonIndexer = 0
-        #iterates through idx list and checks
-        for i in idxList:
-            #if counts[i] != mostCommonInBlock[mostCommonIndexer]:#think wrong
-            if i != mostCommonInBlock[mostCommonIndexer]:
-                errors = errors + 1
-            if itter % 54 == 0:
-                itter = -1
-                mostCommonIndexer = mostCommonIndexer + 1
-            itter = itter + 1
-        return errors
-    """
     def ComplexErrors(self, idx):
         """
         find most common member in a sample (55 of same images) and selects that as true cluster ID
@@ -149,6 +103,29 @@ class MyKMeans:
         print dict(dictTupes)
         return dict(dictTupes)
 
+    def DFTKMeans(self):
+        for i in self.imgs:
+            for j in i:
+                #get most powerful freq in image
+                imageFlat = j.flatten().astype(np.float_)
+                n = len(imageFlat)
+                power = sum(imageFlat * imageFlat) / n
+                imgHat = np.fft.fft(imageFlat) / n
+                posHarmonicsPow = imgHat[0:n/2] / power
+                sortedPow = posHarmonicsPow.sort()
+                runningSum = 0
+                values = []
+                for k in xrange(len(sortedPow)):
+                    values.append(sortedPow[k])
+                    runningSum = runningSum + sortedPow[k]
+                    if runningSum > .9:
+                        break
+
+
+
+
+
+
     def ClassifyTestsM1(self, testDir = "/home/brian/PycharmProjects/firstAttempt/HandLetters"):
         """
         uses ObsAndKGuess to classify images
@@ -188,56 +165,6 @@ class MyKMeans:
                     minDist = dist
                     bestCent = j
             matches.append(name + " was identified to be: " + letterDict[bestCent])
-        return matches
-    def ClassifyTestsM2BROKEN(self, testDir = "/home/brian/PycharmProjects/firstAttempt/HandLetters"):
-        """
-
-        BROKEN METHOD. DOES NOT WORK. KEPT FOR REFERANCE
-        """
-
-        testImages = [(self.data.NormalizeImage(cv2.imread(testDir + "/" + j, 0)),j) for j in os.listdir(testDir)]#tuple (image, letter)
-
-        #testImagesFlat = np.array([list(j.flatten()) for j in testImages])
-        matches = []
-        def DisplayImages(thing):
-            if isinstance(thing, list):
-                for i in thing:
-                    cv2.imshow('image',i[0])
-                    cv2.waitKey(0)
-                    cv2.destroyAllWindows()
-            else:
-                print"YOU DUN GOOFED"
-        DisplayImages(testImages)
-        for i in testImages:
-
-            imageArray = np.array(list(i[0].flatten()))
-            name = i[1]
-            print i[0]
-            #obs = np.array([list(j.flatten()) for i in self.imgs for j in i] + [list(i[0].flatten())] )
-            x = [list(j.flatten()) for i in self.imgs for j in i]
-            #print "x[0]=" + str(type(x[0]))
-            #print "x[0][0]=" + str(type(x[0][0]))
-            y = [list(i[0].flatten())]
-            #print "y[0]=" + str(type(y[0]))
-            #print "y[0][0]=" + str(type(y[0][0]))
-
-            Wobs = np.array(x + y)
-            rowOfEqual = None
-            for i in xrange(len(Wobs)):
-                if np.array_equal(imageArray, Wobs[i]):
-                    rowOfEqual = i
-            print "----" + str(rowOfEqual) + "----"
-
-            print np.array(Wobs[len(Wobs) - 1]).reshape(16,16)
-            centroids, clusters = kmeans2(Wobs, self.kguesses)
-            print clusters
-            clusters = list(clusters)
-            testClust = clusters[-1]
-            clusters = clusters[0:len(clusters) - 1]
-            samps = self.BreakIntoSamples(clusters)
-            dictLet = self.ClusterIDToLetter(samps)
-            matches.append(name +" was matched to: " + dictLet[testClust])
-            print dictLet
         return matches
 
 def testMethods():
