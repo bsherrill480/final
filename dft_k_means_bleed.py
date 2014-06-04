@@ -24,7 +24,7 @@ class ValueIndexWrapper:
     def __repr__(self):
         return "(" + str(self.value) +" @index: " + str(self.index) + ")"
 
-class MyDFTKMeans:
+class MyDFTKMeansBleed:
     def __init__(self, sampStart = 11, sampEnd = 36):
         data = GetData(sampleStart=sampStart, sampleEnd=sampEnd)
         self.sampStart = sampStart
@@ -49,9 +49,23 @@ class MyDFTKMeans:
         obs = whiten(obs)
         return kmeans2(obs, self.k)
     def ObsAndKGuess(self):
-        obs = self.obs #flattens each image into a row
+        obsB = self.Bleed(self.obs) #flattens each image into a row
+        avgsB = self.Bleed(self.GetDFTAvgs())
+        return kmeans2(obsB, avgsB)
 
-        return kmeans2(obs, self.GetDFTAvgs())
+    def Bleed(self, M):
+        wM = .9#each index has equal weight. wM= weightMe
+        wN = .05 #weightNeighbor
+        returnMe = np.zeros(M.shape)
+        for i in xrange(len(M)):
+            for j in xrange(len(M[i])):
+                if j == 0:
+                    returnMe[i,j] = wM*M[i,j] +wN*M[i,j+1]
+                elif j == len(M[i]) - 1:
+                    returnMe[i,j] = wM*M[i,j] +wN*M[i,j-1]
+                else:
+                    returnMe[i,j] = wM*M[i,j] +wN*M[i,j-1] +wN*M[i,j+1]
+        return returnMe
     def WhitenObsAndKWhitenGuess(self):
         obsList = []
         for i in self.imgs:
@@ -257,7 +271,7 @@ class MyDFTKMeans:
             powerTot = sum(imageFlat * imageFlat) / n #parsival's theorem
             imgDFT = np.fft.fft(imageFlat) / n
 
-            imageArray = (np.abs(imgDFT[1:n/2 + 1])**2) / powerTot #CHANGE TO 0 TO ADD MEAN BACK!!!!!!!!!!!!!!!!!!!!
+            imageArray = self.Bleed( np.array([  (np.abs(imgDFT[1:n/2 + 1])**2) / powerTot ]) )#CHANGE TO 0 TO ADD MEAN BACK!!!!!!!!!!!!!!!!!!!!
             name = i[1]
 
             #compare to centroids
@@ -281,7 +295,7 @@ def testMethods():
     used to determine best k-means method
     """
 
-    DFTKmeansT = MyDFTKMeans(sampStart=11,sampEnd=36)
+    DFTKmeansT = MyDFTKMeansBleed(sampStart=11,sampEnd=36)
     #CE,CL1 = DFTKmeansT.WhitenObsAndKInt()
     #CE,CL2 = DFTKmeansT.ObsAndKInt()
     CE,CL3 = DFTKmeansT.ObsAndKGuess()
@@ -304,7 +318,7 @@ if __name__ == "__main__":
     #testMethods()
     #testMethods()
 
-    DFTKmeans = MyDFTKMeans(11,36)
+    DFTKmeans = MyDFTKMeansBleed(11,36)
 
     def DisplayImages(thing):
         if isinstance(thing, list):

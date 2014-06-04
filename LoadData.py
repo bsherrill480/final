@@ -99,6 +99,10 @@ class GetData:
         #    randName = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
         #    cv2.imwrite("./averages/"+randName+".jpg", j)
         return averagedImages
+
+    def GetOneOfEach(self):
+
+        return [i[0] for i in self.ListOfListOfImages]
 """
     def DisplayImages(self, thing):
         if isinstance(thing, list):

@@ -13,9 +13,12 @@ class MyKMeans:
         self.imgs = data.GetListImgs()
         self.letters = data.GetLetters()
         avgs = data.GetAveraged()
-        self.avgs = avgs[sampStart-1: sampEnd]
-        self.kguesses = np.array([list(j.flatten()) for j in avgs])
+        #self.avgs = avgs[sampStart-1: sampEnd]
+        print "len of avgs: " + str(len(avgs))
+        self.kguesses = np.array([list(j.flatten()) for j in avgs])#RIGHT HERE IS WHAT I CHANGED
+        print len(self.kguesses)
         self.k = sampEnd - sampStart + 1
+        print self.k
         self.data = data
     def ObsAndKInt(self):
         obs = np.array([list(j.flatten()) for i in self.imgs for j in i])
@@ -264,8 +267,8 @@ if __name__ == "__main__":
     #Play around to see what technique gives best result
     #testMethods()
 
-    Kmeans = MyKMeans(11,36)
-
+    #Kmeans = MyKMeans(11,36)
+    data = GetData(sampleStart=11,sampleEnd=36)
     def DisplayImages(thing):
         if isinstance(thing, list):
             for i in thing:
@@ -276,6 +279,7 @@ if __name__ == "__main__":
             cv2.imshow('image',thing)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
+    DisplayImages(data.GetOneOfEach())
     errors = 0
     items = 0
     for i in Kmeans.ClassifyTestsM1():
